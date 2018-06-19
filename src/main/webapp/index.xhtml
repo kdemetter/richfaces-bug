@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" >
+
+	<h:head>
+	</h:head>
+
+	<h:body>
+		<h:form id="articleForm" >
+
+			<h:panelGroup layout="block">
+				<rich:messages globalOnly="true" />
+				<rich:dataTable value="#{productModifyBean.articles}" var="article" id="articleTable"
+					rows="15"  >
+					<rich:column headerClass="headerOverflow artNrColumn">
+						<f:facet name="header">
+							<h:outputText value="articleNumber" />
+						</f:facet>
+						<h:outputText value="#{article.articleNumber}"/>
+					</rich:column>
+					<rich:column headerClass="headerOverflow shortNameColumn">
+						<f:facet name="header">
+							<h:outputText value="Name" />
+						</f:facet>
+						<h:outputText value="#{article.shortName}" />
+					</rich:column>
+					<rich:column headerClass="headerOverflow quantityColumn" >
+						<f:facet name="header">
+							<h:outputText value="Quantity" />
+						</f:facet>
+						<h:inputText value="#{article.quantity}" required="true"
+							requiredMessage="This is required" converterMessage="Error conversion"
+							id="modifyArticleFormatQuantity" >
+						</h:inputText>
+						<rich:message for="modifyArticleFormatQuantity" errorClass="errorColorRed" />
+					</rich:column>
+
+				</rich:dataTable>
+				<rich:dataScroller for="linkedArticleTable" renderIfSinglePage="false" boundaryControls="show" fastControls="hide" execute="@form" render="articleTable"
+					stepControls="show" style="float:right;" />
+			</h:panelGroup>
+
+			<br style="clear: both" />
+			<br style="clear: both" />
+			<div align="right" style="clear: both">
+				<a4j:commandButton value="#{msgs['button.modify'] }" styleClass="submitButton"
+					render="#{facesContext.validationFailed ? '@none' : 'articleForm'}"
+					actionListener="#{productModifyBean.modifyProduct}">
+				</a4j:commandButton>
+
+			</div>
+
+		</h:form>
+	</h:body>
+</ui:composition>
